@@ -1,0 +1,30 @@
+/* static/styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, button {
+    margin-bottom: 10px;
+}
+
+#prediction-result {
+    margin-top: 20px;
+}
+
+.spinner-border {
+    margin-right: 5px;
+}
