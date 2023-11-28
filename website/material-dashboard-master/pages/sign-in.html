@@ -1,22 +1,10 @@
-<!--
-=========================================================
-* Material Dashboard 2 - v3.1.0
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8" />
+  <?php include 'signin.php'; ?>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
@@ -70,7 +58,7 @@
                 </div>
               </div>
               <div class="card-body">
-                <form role="form" class="text-start">
+                <form role="form" class="text-start" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">Email</label>
                     <input type="email" class="form-control">
@@ -84,8 +72,8 @@
                     <label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>
                   </div>
                   <div class="text-center">
-                    <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
-                  </div>
+                    <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
+                </div>
                   <p class="mt-4 text-sm text-center">
                     Don't have an account?
                     <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
