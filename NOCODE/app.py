@@ -13,8 +13,8 @@ app = Flask(__name__)
 # Helper function for linear regression
 def perform_linear_regression(file):
     df = pd.read_csv(file)
-    x = df.iloc[:, 0].values.reshape(-1, 1)
-    y = df.iloc[:, 1].values.reshape(-1, 1)
+    x = df.iloc[:,:-1].values.reshape(-1, 1)
+    y = df.iloc[:,0:-1].values.reshape(-1, 1)
 
     # Perform Linear Regression
     model = LinearRegression()
