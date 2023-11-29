@@ -83,3 +83,6 @@
   padding: 12px 20px;
   border-radius: 4px;
 }
+.navbar-nav.ml-auto {
+  margin-left: auto;
+}
