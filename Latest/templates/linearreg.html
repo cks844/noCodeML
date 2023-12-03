@@ -112,7 +112,7 @@
     {% if model %}
         <h2>Model Information</h2>
         <p>Intercept: {{ model.intercept_ }}</p>
-        <p>Coefficient: {{ model.coef_ }}</p>
+        <p>Coefficients: {{ model.coef_ }}</p>
     {% endif %}
     <h2>Predict a New Value</h2>
     <form action="/predict" method="post" style="margin-top: 20px;">
@@ -125,7 +125,7 @@
 
     {% if prediction %}
         <h2>Prediction Result</h2>
-        <p style="margin-top: 10px;">Predicted Value for {{ new_value }}: {{ prediction }}</p>
+        <p style="margin-top: 10px;">Predicted Value for {{ new_value }}: <span class=bld>{{ prediction[0][0] }}</span></p>
     {% endif %}
     </div>
 </div>

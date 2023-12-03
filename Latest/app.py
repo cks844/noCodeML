@@ -77,6 +77,6 @@ def predict():
     prediction = model.predict(new_value_reshaped)
 
 
-    return render_template('linearreg.html', prediction=prediction, model=model.get_params(), new_value=new_value)
+    return render_template('linearreg.html', prediction=prediction, model=model, new_value=new_value)
 
 app.run(debug=True, use_reloader=True, port=5004)
