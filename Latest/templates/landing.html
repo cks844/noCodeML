@@ -107,7 +107,7 @@
           <header>
             <h4>Select File here</h4>
           </header>
-          <p>Files Supported: CSV </p>
+          <p class="file-display">Files Supported: CSV </p>
          <form action="/upload" method="post" enctype="multipart/form-data">
           <input type="file" name="file" hidden accept=".csv" id="fileID" required style="display:none;">
           <button class="btnc">Choose File</button>
@@ -131,34 +131,28 @@
   <script src="../static/js/script.js"></script>
   <script>
 var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-    const dropArea = document.querySelector(".drop_box"),
+if (win && document.querySelector('#sidenav-scrollbar')) {
+  var options = {
+    damping: '0.5'
+  }
+  Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+}
+
+const dropArea = document.querySelector(".drop_box"),
   button = dropArea.querySelector("button"),
   dragText = dropArea.querySelector("header"),
-  input = dropArea.querySelector("input");
-let file;
-var filename;
+  input = dropArea.querySelector("input"),
+  fileDisplay = dropArea.querySelector(".file-display"); // Add this line to select the element where you want to display the file name
 
 button.onclick = () => {
   input.click();
 };
-input.addEventListener("change", function (e) {
-  var fileName = e.target.files[0].name;
-  // let filedata = `
-  //   <form action="/upload" method="post">
-  //   <div class="form">
-  //   <h4>${fileName}</h4>
-  //   <button class="btnc">Upload</button>
-  //   </div>
-  //   </form>`;
-  // dropArea.innerHTML = filedata;
-});
 
+input.addEventListener("change", function (e) {
+  file = e.target.files[0];
+  filename = file.name;
+  fileDisplay.textContent = `Selected File: ${filename}`;
+});
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
