@@ -39,7 +39,7 @@ def perform_linear_regression(file):
 # Main route
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('landing.html')
 
 # Upload route
 @app.route('/upload', methods=['POST'])

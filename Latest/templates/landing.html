@@ -108,8 +108,14 @@
             <h4>Select File here</h4>
           </header>
           <p>Files Supported: CSV </p>
-          <input type="file" hidden accept=".doc,.docx,.pdf" id="fileID" style="display:none;">
+         <form action="/upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" hidden accept=".csv" id="fileID" required style="display:none;">
           <button class="btnc">Choose File</button>
+          
+          <button class="btnc" type="submit">Submit</button>
+        </form>
+
+
         </div>
     
       </div>
@@ -122,6 +128,7 @@
   <script src="../static/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../static/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../static/js/plugins/chartjs.min.js"></script>
+  <script src="../static/js/script.js"></script>
   <script>
 var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -142,14 +149,14 @@ button.onclick = () => {
 };
 input.addEventListener("change", function (e) {
   var fileName = e.target.files[0].name;
-  let filedata = `
-    <form action="" method="post">
-    <div class="form">
-    <h4>${fileName}</h4>
-    <button class="btnc">Upload</button>
-    </div>
-    </form>`;
-  dropArea.innerHTML = filedata;
+  // let filedata = `
+  //   <form action="/upload" method="post">
+  //   <div class="form">
+  //   <h4>${fileName}</h4>
+  //   <button class="btnc">Upload</button>
+  //   </div>
+  //   </form>`;
+  // dropArea.innerHTML = filedata;
 });
 
   </script>
