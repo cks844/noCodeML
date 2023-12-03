@@ -1,7 +1,7 @@
 document.getElementById("loginForm").addEventListener("submit", function (event) {
     event.preventDefault();
 
-    var username = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
 
     // Send a POST request to the server for login validation
@@ -18,5 +18,5 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
             }
         }
     };
-    xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+    xhr.send("email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
 });

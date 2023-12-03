@@ -13,11 +13,11 @@ if ($conn->connect_error) {
 }
 
 // Get username and password from the form
-$username = $_POST["username"];
+$email = $_POST["email"];
 $password = $_POST["password"];
 
 // Validate login
-$sql = "SELECT * FROM USERS WHERE username='$username' AND password_hash='$password'";
+$sql = "SELECT * FROM USERS WHERE email='$email' AND password='$password'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
