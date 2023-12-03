@@ -53,7 +53,7 @@ def upload():
 
     plot, model = perform_linear_regression(file)
 
-    return render_template('result.html', plot=plot, model=model)
+    return render_template('linearreg.html', plot=plot, model=model)
 
 
 # Predict route
@@ -82,7 +82,7 @@ def predict():
     # Use the trained model to predict the new value
     prediction = model.predict(new_value_reshaped)[0]
 
-    return render_template('result.html', prediction=prediction, model=model.get_params())
+    return render_template('linearreg.html', prediction=prediction, model=model.get_params())
 
 
 app.run(debug=True, use_reloader=True,port=5004)
