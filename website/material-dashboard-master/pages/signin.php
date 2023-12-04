@@ -17,7 +17,7 @@ $email = $_POST["email"];
 $password = $_POST["password"];
 
 // Validate login
-$sql = "SELECT * FROM USERS WHERE email='$email' AND password_hash='$password'";
+$sql = "SELECT * FROM USERS WHERE email='$email' AND password='$password'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

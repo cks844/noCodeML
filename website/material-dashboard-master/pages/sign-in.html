@@ -24,6 +24,39 @@
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("form").submit(function (event) {
+        event.preventDefault();
+
+        // Get form data
+        var formData = {
+          email: $("#email").val(),
+          password: $("#password").val()
+        };
+
+        // Send AJAX request
+        $.ajax({
+          type: "POST",
+          url: "signin.php", // Replace with the actual filename of your PHP script
+          data: formData,
+          dataType: "json",
+          success: function (response) {
+            // Handle the response here
+            if (response.success) {
+              alert("Login successful!");
+            } else {
+              alert("Login failed!");
+            }
+          },
+          error: function () {
+            alert("An error occurred during the AJAX request.");
+          }
+        });
+      });
+    });
+  </script>
 </head>
 
 <body class="">
@@ -78,14 +111,14 @@
                 </div>
               </div>
               <div class="card-body">
-                <form role="form" class="text-start" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <form role="form" class="text-start" method="POST" action="signin.php">
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control">
+                    <input type="email" class="form-control" name="email" id="email">
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-control">
+                    <input type="password" class="form-control" name="password" id="password">
                   </div>
                   <div class="form-check form-switch d-flex align-items-center mb-3">
                     <input class="form-check-input" type="checkbox" id="rememberMe" checked>
