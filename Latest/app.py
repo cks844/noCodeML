@@ -9,7 +9,13 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 import ast
+import mysql.connector
 app = Flask(__name__)
+
+servername = "localhost"
+username = "root"
+password = "password"
+dbname = "NoCodeML"
 
 # Helper function for linear regression
 def perform_linear_regression(file):
@@ -40,7 +46,30 @@ def perform_linear_regression(file):
 # Main route
 @app.route('/')
 def index():
-    return render_template('landing.html')
+    # Connect to the database
+    connection = mysql.connector.connect(
+        host=servername,
+        user=username,
+        password=password,
+        database=dbname
+    )
+
+    # Create a cursor to execute queries
+    cursor = connection.cursor(dictionary=True)
+
+    # Execute the query to select all columns from the 'users' table
+    cursor.execute("SELECT id, full_name, email FROM users where password='pass'")
+
+    # Fetch all rows from the result set
+    result = cursor.fetchall()
+    id=result[0]['id']
+    name=result[0]['full_name']
+    email=result[0]['email']
+    # Close the cursor and connection
+    cursor.close()
+    connection.close()
+
+    return render_template('landing.html',name=name,id=id,email=email)
 
 # Upload route
 @app.route('/upload', methods=['POST'])
