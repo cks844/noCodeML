@@ -1,5 +1,6 @@
 # app.py
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+import mysql.connector
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 import numpy as np
@@ -9,13 +10,14 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 import ast
-import mysql.connector
 app = Flask(__name__)
 
-servername = "localhost"
-username = "root"
-password = "password"
-dbname = "NoCodeML"
+db_credentials = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'password',
+    'database': 'NoCodeML'
+}
 
 # Helper function for linear regression
 def perform_linear_regression(file):
@@ -43,33 +45,44 @@ def perform_linear_regression(file):
 
     return model, img_str
 
+
+
+def authenticate_user(email, password):
+    # Connect to the database
+    db_connection = mysql.connector.connect(
+        host=db_credentials['host'],
+        user=db_credentials['user'],
+        password=db_credentials['password'],
+        database=db_credentials['database']
+    )
+
+    cursor = db_connection.cursor(dictionary=True)
+    query = "SELECT * FROM users WHERE email = %s AND password = %s"
+    cursor.execute(query, (email, password))
+    user = cursor.fetchone()
+
+    # Close the database connection
+    db_connection.close()
+
+    return user
+
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user = authenticate_user(email, password)
+
+    if user:
+        return render_template('landing.html')  
+    else:
+        return render_template('sign-in.html', error='Invalid credentials')
+
+
 # Main route
 @app.route('/')
 def index():
-    # Connect to the database
-    connection = mysql.connector.connect(
-        host=servername,
-        user=username,
-        password=password,
-        database=dbname
-    )
-
-    # Create a cursor to execute queries
-    cursor = connection.cursor(dictionary=True)
-
-    # Execute the query to select all columns from the 'users' table
-    cursor.execute("SELECT id, full_name, email FROM users where password='pass'")
-
-    # Fetch all rows from the result set
-    result = cursor.fetchall()
-    id=result[0]['id']
-    name=result[0]['full_name']
-    email=result[0]['email']
-    # Close the cursor and connection
-    cursor.close()
-    connection.close()
-
-    return render_template('landing.html',name=name,id=id,email=email)
+    return render_template('sign-in.html')
 
 # Upload route
 @app.route('/upload', methods=['POST'])
