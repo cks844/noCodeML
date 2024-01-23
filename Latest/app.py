@@ -79,10 +79,48 @@ def login():
         return render_template('sign-in.html', error='Invalid credentials')
 
 
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    try:
+        # Get form data
+        full_name = request.form['full_name']
+        phone_no = request.form['phone_no']
+        dob = request.form['dob']
+        email = request.form['email']
+        password = request.form['password']
+
+        # Connect to the database
+        db_connection = mysql.connector.connect(
+            host=db_credentials['host'],
+            user=db_credentials['user'],
+            password=db_credentials['password'],
+            database=db_credentials['database']
+        )
+
+        cursor = db_connection.cursor()
+
+        # Insert data into the database
+        query = "INSERT INTO users (fullname, phone_no, dob, email, password, registration_date) VALUES (%s, %s, %s, %s, %s, %s)"
+        registration_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cursor.execute(query, (full_name, phone_no, dob, email, password, registration_date))
+
+        # Commit changes and close the database connection
+        db_connection.commit()
+        db_connection.close()
+
+        # Return success message
+        return jsonify({'success': True, 'message': 'Account created successfully'})
+
+    except Exception as e:
+        # Return error message
+        return jsonify({'success': False, 'message': str(e)})
+    
+
 # Main route
 @app.route('/')
 def index():
-    return render_template('sign-in.html')
+    return render_template('sign-up.html')
 
 # Upload route
 @app.route('/upload', methods=['POST'])
