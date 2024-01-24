@@ -101,16 +101,16 @@ def signup():
         cursor = db_connection.cursor()
 
         # Insert data into the database
-        query = "INSERT INTO users (fullname, phone_no, dob, email, password, registration_date) VALUES (%s, %s, %s, %s, %s, %s)"
-        registration_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        cursor.execute(query, (full_name, phone_no, dob, email, password, registration_date))
+        
+        query = "INSERT INTO users (fullname, phone_no, dob, email, password) VALUES (%s, %s, %s, %s, %s)"
+        cursor.execute(query, (full_name, phone_no, dob, email, password))
 
         # Commit changes and close the database connection
         db_connection.commit()
         db_connection.close()
 
         # Return success message
-        return jsonify({'success': True, 'message': 'Account created successfully'})
+        return render_template('sign-in.html')
 
     except Exception as e:
         # Return error message
