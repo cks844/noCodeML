@@ -82,26 +82,26 @@
                   <form role="form" method="POST" action="{{ url_for('signup') }}">
                     <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Full Name</label>
-                        <input type="text" class="form-control" name="full_name">
+                        <input type="text" class="form-control" name="full_name" required>
                     </div>
                     <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Phone No</label>
-                        <input type="text" class="form-control" style="appearance: none;" name="phone_no">
+                        <input type="text" class="form-control" style="appearance: none;" name="phone_no" required>
                     </div>
                     <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" name="dob">
+                        <input type="date" class="form-control" name="dob" required>
                     </div>
                     <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email">
+                        <input type="email" class="form-control" name="email" required>
                     </div>
                     <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password">
+                        <input type="password" class="form-control" name="password" required>
                     </div>
                     <div class="form-check form-check-info text-start ps-0">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
                         <label class="form-check-label" for="flexCheckDefault">
                             I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
                         </label>

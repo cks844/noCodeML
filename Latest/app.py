@@ -12,6 +12,7 @@ import base64
 import ast
 app = Flask(__name__)
 
+# Database Credentials
 db_credentials = {
     'host': 'localhost',
     'user': 'root',
@@ -19,7 +20,7 @@ db_credentials = {
     'database': 'NoCodeML'
 }
 
-# Helper function for linear regression
+# Linear regression
 def perform_linear_regression(file):
     df = pd.read_csv(file)
     x = df.iloc[:, :-1].values.reshape(-1, 1)
@@ -77,8 +78,11 @@ def login():
         return render_template('landing.html')  
     else:
         return render_template('sign-in.html', error='Invalid credentials')
+    
 
-
+@app.route('/sign-up')
+def sign_up():
+    return render_template('sign-up.html')
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -120,7 +124,7 @@ def signup():
 # Main route
 @app.route('/')
 def index():
-    return render_template('sign-up.html')
+    return render_template('sign-in.html')
 
 # Upload route
 @app.route('/upload', methods=['POST'])
