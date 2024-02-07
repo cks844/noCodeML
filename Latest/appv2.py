@@ -128,10 +128,6 @@ def upload():
     return render_template('models.html')
 
 
-# file=upload()
-
-# model, plot = perform_linear_regression(file)
-# Predict route
 @app.route('/predict', methods=['POST'])
 def predict():
     new_value = float(request.form['new_value'])  # Get the new value as a float
