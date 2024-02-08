@@ -31,24 +31,3 @@ def perform_linear_regression(file):
     plt.close()
 
     return model, img_str
-
-def predict():
-    new_value = float(request.form['new_value'])  # Get the new value as a float
-    # Create a new instance of LinearRegression
-    model = LinearRegression()
-
-    # Set the parameters for the new instance
-    model.intercept_ = request.form['inter']
-    model.intercept_=float(model.intercept_.strip('[]'))
-    model.coef_ = request.form['coef']
-    outer_list = ast.literal_eval(model.coef_)
-    inner_list_floats = [float(item) for item in outer_list[0]]
-    model.coef_ = np.array([inner_list_floats])
-    # Reshape the new value to fit the model's input requirements
-    new_value_reshaped = np.array([new_value]).reshape(-1, 1)
-
-    # Use the trained model to predict the new value
-    prediction = model.predict(new_value_reshaped)
-
-
-    return render_template('linearreg.html', prediction=prediction, model=model, new_value=new_value)
