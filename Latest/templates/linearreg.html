@@ -115,7 +115,7 @@
         <p>Coefficients: {{ model.coef_ }}</p>
     {% endif %}
     <h2>Predict a New Value</h2>
-    <form action="/predict" method="post" style="margin-top: 20px;">
+    <form action="/predict_new" method="post" style="margin-top: 20px;">
         <label for="new_value" style="font-weight: bold; margin-right: 10px;">Enter a new value:</label>
         <input type="number" name="new_value" required style="padding: 8px; margin-right: 10px; border: 1px solid #ccc;">
         <input type="hidden" name="inter" value="{{ model.intercept_  }}">

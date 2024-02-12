@@ -103,11 +103,33 @@ def signup():
         # Return error message
         return jsonify({'success': False, 'message': str(e)})
     
+@app.route('/features')
+def display_features():
+    try:
+        # Read the CSV file
+        file_path = 'tempsy/f'
+        df = pd.read_csv(file_path)
 
+        # Get column names, data types, and number of distinct values
+        columns_info = []
+        for column in df.columns:
+            column_info = {
+                'name': column,
+                'datatype': str(df[column].dtype),
+                'distinct_values': df[column].nunique()
+            }
+            columns_info.append(column_info)
+
+        return render_template('features.html', columns_info=columns_info)
+
+    except Exception as e:
+        # Handle any exceptions
+        return render_template('error.html', error=str(e))
+    
 # Main route
 @app.route('/')
 def index():
-    return render_template('landing.html')
+    return render_template('models.html')
 
 # Upload route
 # @app.route('/linearreg', methods=['POST'])
