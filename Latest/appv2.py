@@ -52,6 +52,10 @@ def login():
 def sign_up():
     return render_template('sign-up.html')
 
+@app.route('/models')
+def model():
+    return(render_template('models.html'))
+
 @app.route('/reg')
 def linear():
     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
@@ -129,7 +133,7 @@ def display_features():
 # Main route
 @app.route('/')
 def index():
-    return render_template('models.html')
+    return render_template('landing.html')
 
 # Upload route
 # @app.route('/linearreg', methods=['POST'])
