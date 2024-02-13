@@ -1,10 +1,12 @@
 # app.py
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask_cors import CORS
 import mysql.connector
 import numpy as np
 import pandas as pd
 import os
 from models.linear import *
+from models.logistic import *
 from werkzeug.datastructures import FileStorage
 app = Flask(__name__)
 
@@ -62,6 +64,8 @@ def linear():
     model, plot = perform_linear_regression(file)
     return render_template('linearreg.html', plot=plot, model=model)
 
+
+
 @app.route('/predict_new', methods=['POST'])
 def predict_new():
     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
@@ -70,6 +74,31 @@ def predict_new():
     new_value_reshaped = np.array([new_value]).reshape(-1, 1)
     prediction = model.predict(new_value_reshaped)
     return render_template('linearreg.html',plot=plot, prediction=prediction, model=model, new_value=new_value)
+
+# @app.route('/target', methods=['POST'])
+# def get_target():
+#     target = request.form['target']
+#     return target
+
+@app.route('/logreg',methods=['POST'])
+def logistic():
+    try:
+        file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+        target = request.json.get('variable', '')
+        acc,plot,model = perform_logistic_regression(file,target)
+        return redirect(url_for('logs', acc=acc, plot=plot, model=model))
+    except Exception as e:
+        # Log the exception
+        app.logger.error(f"An error occurred: {str(e)}")
+        # Return a detailed error response
+        return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
+    
+@app.route('/logist')
+def logs():
+    acc = request.args.get('acc')
+    plot = request.args.get('plot')
+    model = request.args.get('model')
+    return(render_template('logistic.html', acc=acc, plot=plot, model=model))
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -117,11 +146,14 @@ def display_features():
         # Get column names, data types, and number of distinct values
         columns_info = []
         for column in df.columns:
+            i=1
             column_info = {
+                'index':i,
                 'name': column,
                 'datatype': str(df[column].dtype),
                 'distinct_values': df[column].nunique()
             }
+            i+=1
             columns_info.append(column_info)
 
         return render_template('features.html', columns_info=columns_info)

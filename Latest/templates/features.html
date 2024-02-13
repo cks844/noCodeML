@@ -142,7 +142,10 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                     </tr>
                   </thead>
+                  
                   <tbody>
+                    <!-- <form id="myForm" action="/logreg" method="post" onsubmit="return chooseValue(this);"> -->
+                    
                     {% for column_info in columns_info %}
                         <tr>
                           <td>
@@ -163,11 +166,13 @@
                             <span class="text-secondary font-weight-bold text-xs">{{ column_info.distinct_values }}</span>
                           </td>
                           <td class="align-middle text-center">
-                            <a href="#"><span class="badge badge-sm bg-gradient-success">Choose</span></a>   
-                          </td>
+                            <input type="hidden" name="secondLine" value="">
+                            <button class="badge badge-sm bg-gradient-success" onclick="chooseValue(this)">Choose</button>
+                            
+                        </td>
                         </tr>
                     {% endfor %}
-                    
+                  <!-- </form> -->
                   </tbody>
                 </table>
               </div>
@@ -178,7 +183,53 @@
       
     </div>
   </main>
+
+  <script>
+    function chooseValue(button) {
+        var row = button.closest('tr');
+        var firstCellValue = row.querySelector('td:first-child').innerText;
+        var lines = firstCellValue.split('\n');
+        var secondLine = lines.length >= 2 ? lines[1] : '';
+        console.log(secondLine);
+
+        fetch('/logreg', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ variable: secondLine }),
+        })
+        .then(response => {
+            if (response.redirected) {
+                // If the response is a redirect, navigate to the redirected URL
+                window.location.href = response.url;
+            } else {
+                // If not a redirect, assume it's JSON and proceed with parsing
+                return response.json();
+            }
+        })
+        .then(data => {
+            // If not a redirect, handle the response data as needed
+            if (data) {
+                console.log(data);
+                // Handle the response data as needed
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        // .then(response => response.text())  // Use text() instead of json()
+        // .then(data => {
+        //     document.body.innerHTML = data;
+        // })
+        // .catch(error => {
+        //     console.error('Error:', error);
+        // });
+    }
+</script>
+
   <!--   Core JS Files   -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>

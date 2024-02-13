@@ -5,7 +5,7 @@ matplotlib.use('agg')  # Use the 'agg' backend
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-import ast
+
 
 def perform_linear_regression(file):
     df = pd.read_csv(file)
