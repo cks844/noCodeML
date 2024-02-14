@@ -43,4 +43,4 @@ def perform_logistic_regression(file,target):
     plt.savefig(image_stream, format='png')
     image_stream.seek(0)
     img_str = base64.b64encode(image_stream.read()).decode('utf-8')
-    return(accuracy,img_str,model)
+    return(accuracy,img_str,conf_matrix)

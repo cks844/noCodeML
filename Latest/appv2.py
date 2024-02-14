@@ -85,8 +85,15 @@ def logistic():
     try:
         file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
         target = request.json.get('variable', '')
-        acc,plot,model = perform_logistic_regression(file,target)
-        return redirect(url_for('logs', acc=acc, plot=plot, model=model))
+        acc,plot,conf = perform_logistic_regression(file,target)
+        acc=round(acc*100,2)
+        correct=conf.diagonal().sum()
+        total=conf.sum()
+        wrong=total-correct
+        conf=""
+        conf=conf+str(correct)+" "+str(wrong)+" "+str(total)
+        # correct,=[conf[0][0]+conf[1][1],conf[0][1]+conf[1][0]]
+        return redirect(url_for('logs', acc=acc, plot=plot, conf=conf))
     except Exception as e:
         # Log the exception
         app.logger.error(f"An error occurred: {str(e)}")
@@ -97,8 +104,9 @@ def logistic():
 def logs():
     acc = request.args.get('acc')
     plot = request.args.get('plot')
-    model = request.args.get('model')
-    return(render_template('logistic.html', acc=acc, plot=plot, model=model))
+    conf = request.args.get('conf')
+    conf=conf.split(" ")
+    return(render_template('logistic.html', acc=acc, plot=plot, conf=conf))
 
 @app.route('/signup', methods=['POST'])
 def signup():

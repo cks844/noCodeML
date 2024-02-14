@@ -1,5 +1,3 @@
-import pandas as pd
-file=pd.read_csv('Latest/temp/file.csv')
-print(file.head())
-X=file.drop(columns=['Height'])
-print(X.head())
+import numpy as np
+a=np.array([[1,2],[3,4]])
+print(a.sum())
