@@ -177,7 +177,7 @@
         </div>
       </div>
     </div>
-    <div id="modelList" class="row mt-4">
+    <div id="modelList" class="row mt-4 justify-content-center">
       <!-- This div will contain the list of models based on user selection -->
     </div>
     </div>
@@ -196,22 +196,29 @@
     function displayModels(modelType) {
       var modelListDiv = document.getElementById("modelList");
       var models = [];
+      var links=[]
   
       // Clear existing content in modelListDiv
       modelListDiv.innerHTML = "";
   
       // Create an array of models based on the selected model type
       if (modelType === 'regression') {
-        models = ['Linear Regression', 'Polynomial Regression', '...','....','...']; // Add more regression models as needed
+        models = ['Linear Regression'];
+        links = ["{{ url_for('linear') }}"]
+        // Add more regression models as needed
       } else if (modelType === 'classification') {
-        models = ['Logistic Regression', 'Decision Tree', 'Random Forest', '...']; // Add more classification models as needed
+        models = ['Logistic Regression','KNN'];
+        links = ["{{ url_for('display_features') }}?m=logreg","{{ url_for('display_features') }}?m=knn"]
       }
-  
+
       // Display the list of models in modelListDiv
-      models.forEach(function(model) {
+      var heading = document.createElement('h3');
+      heading.textContent = 'Available Models'; // Adjust heading text as needed
+      modelListDiv.appendChild(heading);
+      models.forEach(function(model, index) {
         var modelItem = document.createElement('div');
         modelItem.classList.add('col-lg-3', 'col-md-4', 'mt-4', 'mb-4'); // Adjusted grid classes
-        modelItem.innerHTML = '<div class="card z-index-2"><div class="card-body"><h6 class="mb-0">' + model + '</h6></div></div>';
+        modelItem.innerHTML = '<a href="' + links[index] + '" class="card z-index-2"><div class="card-body"><h6 class="mb-0">' + model + '</h6></div></a>';
         modelListDiv.appendChild(modelItem);
       });
     }

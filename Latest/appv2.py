@@ -7,6 +7,7 @@ import pandas as pd
 import os
 from models.linear import *
 from models.logistic import *
+from models.knn import *
 from werkzeug.datastructures import FileStorage
 app = Flask(__name__)
 
@@ -102,6 +103,34 @@ def logs():
     conf = request.args.get('conf')
     conf=conf.split(" ")
     return(render_template('logistic.html', acc=acc, plot=plot, conf=conf))
+
+@app.route('/knn',methods=['POST'])
+def knn_f():
+    try:
+        file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+        target = request.json.get('variable', '')
+        acc,plot,conf = perform_knn(file,target)
+        acc=round(acc*100,2)
+        correct=conf.diagonal().sum()
+        total=conf.sum()
+        wrong=total-correct
+        conf=""
+        conf=conf+str(correct)+" "+str(wrong)+" "+str(total)
+
+        return redirect(url_for('kn', acc=acc, plot=plot, conf=conf))
+    except Exception as e:
+        # Log the exception
+        app.logger.error(f"An error occurred: {str(e)}")
+        # Return a detailed error response
+        return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
+    
+@app.route('/knist')
+def kn():
+    acc = request.args.get('acc')
+    plot = request.args.get('plot')
+    conf = request.args.get('conf')
+    conf=conf.split(" ")
+    return(render_template('knn.html', acc=acc, plot=plot, conf=conf))
 
 @app.route('/signup', methods=['POST'])
 def signup():

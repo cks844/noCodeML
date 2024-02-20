@@ -185,14 +185,31 @@
   </main>
 
   <script>
-    function chooseValue(button) {
+    function chooseValue(button,m) {
         var row = button.closest('tr');
         var firstCellValue = row.querySelector('td:first-child').innerText;
         var lines = firstCellValue.split('\n');
         var secondLine = lines.length >= 2 ? lines[1] : '';
         console.log(secondLine);
 
-        fetch('/logreg', {
+        var queryParams = window.location.search.substring(1); // Excluding the leading "?"
+    
+    // Convert the parameters into an object
+    var paramsObject = {};
+    queryParams.split('&').forEach(function (param) {
+        var pair = param.split('=');
+        paramsObject[pair[0]] = decodeURIComponent(pair[1] || '');
+    });
+
+    // Access the value of a specific parameter
+    var m = paramsObject.m;
+
+
+
+
+        var url = '/' + m;
+        console.log(url);
+    fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
