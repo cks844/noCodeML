@@ -35,6 +35,13 @@
     transform: scale(1.05);
     transition: transform 0.5s ease-in-out;
   }
+
+  #modelList{
+    margin-right: 30px;
+    margin-left: 30px;
+    text-align: center;
+    align-items: var();
+  }
 </style>
 <body class="g-sidenav-show  bg-gray-200">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
@@ -127,7 +134,8 @@
       </div>
       <div class="row mt-4">
         <div class="col-lg-4 col-md-6 mt-4 mb-4 offset-lg-2">
-          <a href="{{ url_for('linear') }}" class="card z-index-2">
+          <!-- <a href="{{ url_for('linear') }}" class="card z-index-2"> -->
+            <a class="card z-index-2" onclick="displayModels('regression')">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
               <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
                 <div class="chart">
@@ -147,7 +155,8 @@
           </a>
         </div>
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
-          <a href="{{ url_for('display_features') }}" class="card z-index-2">
+          <!-- <a href="{{ url_for('display_features') }}" class="card z-index-2"> -->
+            <a class="card z-index-2" onclick="displayModels('classification')">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
               <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
                 <div class="chart">
@@ -168,7 +177,9 @@
         </div>
       </div>
     </div>
-      
+    <div id="modelList" class="row mt-4">
+      <!-- This div will contain the list of models based on user selection -->
+    </div>
     </div>
   </main>
   
@@ -180,6 +191,32 @@
   <script src="../static/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../static/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../static/js/plugins/chartjs.min.js"></script>
+
+  <script>
+    function displayModels(modelType) {
+      var modelListDiv = document.getElementById("modelList");
+      var models = [];
+  
+      // Clear existing content in modelListDiv
+      modelListDiv.innerHTML = "";
+  
+      // Create an array of models based on the selected model type
+      if (modelType === 'regression') {
+        models = ['Linear Regression', 'Polynomial Regression', '...','....','...']; // Add more regression models as needed
+      } else if (modelType === 'classification') {
+        models = ['Logistic Regression', 'Decision Tree', 'Random Forest', '...']; // Add more classification models as needed
+      }
+  
+      // Display the list of models in modelListDiv
+      models.forEach(function(model) {
+        var modelItem = document.createElement('div');
+        modelItem.classList.add('col-lg-3', 'col-md-4', 'mt-4', 'mb-4'); // Adjusted grid classes
+        modelItem.innerHTML = '<div class="card z-index-2"><div class="card-body"><h6 class="mb-0">' + model + '</h6></div></div>';
+        modelListDiv.appendChild(modelItem);
+      });
+    }
+  </script>
+
   <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 

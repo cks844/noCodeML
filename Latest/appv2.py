@@ -75,11 +75,6 @@ def predict_new():
     prediction = model.predict(new_value_reshaped)
     return render_template('linearreg.html',plot=plot, prediction=prediction, model=model, new_value=new_value)
 
-# @app.route('/target', methods=['POST'])
-# def get_target():
-#     target = request.form['target']
-#     return target
-
 @app.route('/logreg',methods=['POST'])
 def logistic():
     try:

@@ -1,29 +1,28 @@
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix
 import matplotlib
+import numpy as np
 matplotlib.use('agg')  # Use the 'agg' backend
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-import seaborn as sns
-# Import necessary libraries
-def perform_logistic_regression(file,target):
-    
+import ast
+from sklearn.metrics import confusion_matrix,accuracy_score
+from sklearn.neighbors import KNeighborsClassifier 
+from sklearn.model_selection import train_test_split 
+import pandas as pd
+import seaborn as sns 
+ 
+
+def perform_knn(file,target):
     df = pd.read_csv(file,index_col=False)
     y=df[target]
     target=[target]
     if 'id' in df.columns:
         target.append('id')
     X=df.drop(columns=target)
-    print(target)
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.35, random_state=42)
-
-    # Create a logistic regression model
-    model = LogisticRegression(max_iter=10000)
-
-    # Train the model on the training set
+    # Perform Linear Regression
+    model = KNeighborsClassifier(n_neighbors=3)
     model.fit(X_train, y_train)
 
     # Make predictions on the test set
