@@ -77,59 +77,29 @@ def predict_new():
 
 @app.route('/logreg',methods=['POST'])
 def logistic():
-    try:
-        file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
-        target = request.json.get('variable', '')
-        acc,plot,conf = perform_logistic_regression(file,target)
-        acc=round(acc*100,2)
-        correct=conf.diagonal().sum()
-        total=conf.sum()
-        wrong=total-correct
-        conf=""
-        conf=conf+str(correct)+" "+str(wrong)+" "+str(total)
-        # correct,=[conf[0][0]+conf[1][1],conf[0][1]+conf[1][0]]
-        return redirect(url_for('logs', acc=acc, plot=plot, conf=conf))
-    except Exception as e:
-        # Log the exception
-        app.logger.error(f"An error occurred: {str(e)}")
-        # Return a detailed error response
-        return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
-    
-@app.route('/logist')
-def logs():
-    acc = request.args.get('acc')
-    plot = request.args.get('plot')
-    conf = request.args.get('conf')
-    conf=conf.split(" ")
-    return(render_template('logistic.html', acc=acc, plot=plot, conf=conf))
+    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+    target = request.json.get('variable', '')
+    acc,plot,conf = perform_logistic_regression(file,target)
+    acc=round(acc*100,2)
+    correct=conf.diagonal().sum()
+    total=conf.sum()
+    wrong=total-correct
+    conf=[correct,wrong,total]
+    return render_template('logistic.html',acc=acc, plot=plot, conf=conf)
+
 
 @app.route('/knn',methods=['POST'])
 def knn_f():
-    try:
-        file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
-        target = request.json.get('variable', '')
-        acc,plot,conf = perform_knn(file,target)
-        acc=round(acc*100,2)
-        correct=conf.diagonal().sum()
-        total=conf.sum()
-        wrong=total-correct
-        conf=""
-        conf=conf+str(correct)+" "+str(wrong)+" "+str(total)
 
-        return redirect(url_for('kn', acc=acc, plot=plot, conf=conf))
-    except Exception as e:
-        # Log the exception
-        app.logger.error(f"An error occurred: {str(e)}")
-        # Return a detailed error response
-        return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
-    
-@app.route('/knist')
-def kn():
-    acc = request.args.get('acc')
-    plot = request.args.get('plot')
-    conf = request.args.get('conf')
-    conf=conf.split(" ")
-    return(render_template('knn.html', acc=acc, plot=plot, conf=conf))
+    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+    target = request.json.get('variable', '')
+    acc,plot,conf = perform_knn(file,target)
+    acc=round(acc*100,2)
+    correct=conf.diagonal().sum()
+    total=conf.sum()
+    wrong=total-correct
+    conf=[correct,wrong,total]
+    return render_template('knn.html',acc=acc, plot=plot, conf=conf)
 
 @app.route('/signup', methods=['POST'])
 def signup():

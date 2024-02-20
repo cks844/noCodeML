@@ -209,32 +209,46 @@
 
         var url = '/' + m;
         console.log(url);
-    fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ variable: secondLine }),
-        })
-        .then(response => {
-            if (response.redirected) {
-                // If the response is a redirect, navigate to the redirected URL
-                window.location.href = response.url;
-            } else {
-                // If not a redirect, assume it's JSON and proceed with parsing
-                return response.json();
-            }
-        })
-        .then(data => {
-            // If not a redirect, handle the response data as needed
-            if (data) {
-                console.log(data);
-                // Handle the response data as needed
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        fetch(url, {
+    method: 'POST',
+    headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ variable: secondLine }),
+    })
+    .then(response => response.text())  // Assuming the response is HTML
+    .then(html => {
+        document.body.innerHTML = html;  // Replace the entire body content with the fetched HTML
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    // fetch(url, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ variable: secondLine }),
+    //     })
+    //     .then(response => {
+    //         if (response.redirected) {
+    //             // If the response is a redirect, navigate to the redirected URL
+    //             window.location.href = response.url;
+    //         } else {
+    //             // If not a redirect, assume it's JSON and proceed with parsing
+    //             // return response.json();
+    //         }
+    //     })
+    //     .then(data => {
+    //         // If not a redirect, handle the response data as needed
+    //         if (data) {
+    //             console.log(data);
+    //             // Handle the response data as needed
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //     });
         // .then(response => response.text())  // Use text() instead of json()
         // .then(data => {
         //     document.body.innerHTML = data;
