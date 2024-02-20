@@ -5,9 +5,8 @@ import mysql.connector
 import numpy as np
 import pandas as pd
 import os
-from models.linear import *
-from models.logistic import *
-from models.knn import *
+from models.classification import *
+from models.regression import *
 from werkzeug.datastructures import FileStorage
 app = Flask(__name__)
 
