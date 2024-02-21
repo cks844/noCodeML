@@ -101,6 +101,19 @@ def knn_f():
     conf=[correct,wrong,total]
     return render_template('knn.html',acc=acc, plot=plot, conf=conf)
 
+@app.route('/dtree',methods=['POST'])
+def decision_tree():
+
+    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+    target = request.json.get('variable', '')
+    acc,plot,tree,conf = perform_dtree(file,target)
+    acc=round(acc*100,2)
+    correct=conf.diagonal().sum()
+    total=conf.sum()
+    wrong=total-correct
+    conf=[correct,wrong,total]
+    return render_template('dtree.html',acc=acc,tree=tree, plot=plot, conf=conf)
+
 @app.route('/signup', methods=['POST'])
 def signup():
     try:

@@ -207,8 +207,8 @@
         links = ["{{ url_for('linear') }}"]
         // Add more regression models as needed
       } else if (modelType === 'classification') {
-        models = ['Logistic Regression','KNN'];
-        links = ["{{ url_for('display_features') }}?m=logreg","{{ url_for('display_features') }}?m=knn"]
+        models = ['Logistic Regression','KNN','Decision Tree'];
+        links = ["{{ url_for('display_features') }}?m=logreg","{{ url_for('display_features') }}?m=knn","{{ url_for('display_features') }}?m=dtree"]
       }
 
       // Display the list of models in modelListDiv
