@@ -54,6 +54,11 @@ def login():
 def sign_up():
     return render_template('sign-up.html')
 
+@app.route('/sign-in')
+def sign_in():
+    return render_template('sign-in.html')
+
+
 @app.route('/models')
 def model():
     return(render_template('models.html'))
