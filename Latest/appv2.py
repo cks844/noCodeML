@@ -1,6 +1,5 @@
 # app.py
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from flask_cors import CORS
 import mysql.connector
 import numpy as np
 import pandas as pd
@@ -118,6 +117,32 @@ def decision_tree():
     wrong=total-correct
     conf=[correct,wrong,total]
     return render_template('dtree.html',acc=acc,tree=tree, plot=plot, conf=conf)
+
+@app.route('/naivebayes',methods=['POST'])
+def naive_bayes():
+
+    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+    target = request.json.get('variable', '')
+    acc,plot,conf = perform_naivebayes(file,target)
+    acc=round(acc*100,2)
+    correct=conf.diagonal().sum()
+    total=conf.sum()
+    wrong=total-correct
+    conf=[correct,wrong,total]
+    return render_template('naivebayes.html',acc=acc, plot=plot, conf=conf)
+
+@app.route('/svm',methods=['POST'])
+def svm():
+
+    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+    target = request.json.get('variable', '')
+    acc,plot,conf = perform_svm(file,target)
+    acc=round(acc*100,2)
+    correct=conf.diagonal().sum()
+    total=conf.sum()
+    wrong=total-correct
+    conf=[correct,wrong,total]
+    return render_template('svm.html',acc=acc, plot=plot, conf=conf)
 
 @app.route('/signup', methods=['POST'])
 def signup():
