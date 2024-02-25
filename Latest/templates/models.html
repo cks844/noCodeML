@@ -42,6 +42,15 @@
     text-align: center;
     align-items: var();
   }
+  .analysis-box {
+    color: #000;
+    border-radius: 220px;
+    box-shadow: 0px 0px 0px 2px rgba(0,0,0,1),
+    8px 8px 0px 0px rgba(218,102,123,1);
+
+
+    
+  }
 </style>
 <body class="g-sidenav-show  bg-gray-200">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
@@ -218,7 +227,11 @@
       models.forEach(function(model, index) {
         var modelItem = document.createElement('div');
         modelItem.classList.add('col-lg-3', 'col-md-4', 'mt-4', 'mb-4'); // Adjusted grid classes
+        if (model === 'Analysis') {
+        modelItem.innerHTML = '<a href="' + links[index] + '" class="card z-index-2 analysis-box"><div class="card-body"><h6 class="mb-0">' + model + '</h6></div></a>';
+      } else {
         modelItem.innerHTML = '<a href="' + links[index] + '" class="card z-index-2"><div class="card-body"><h6 class="mb-0">' + model + '</h6></div></a>';
+      }
         modelListDiv.appendChild(modelItem);
       });
     }
