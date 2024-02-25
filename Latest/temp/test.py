@@ -1,3 +1,2 @@
-import numpy as np
-a=np.array([[1,2],[3,4]])
-print(a.sum())
+for i in range(1,6):
+    print('a'+str(i))

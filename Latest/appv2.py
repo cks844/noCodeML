@@ -144,6 +144,18 @@ def svm():
     conf=[correct,wrong,total]
     return render_template('svm.html',acc=acc, plot=plot, conf=conf)
 
+
+@app.route('/analysis',methods=['POST'])
+def analysis():
+
+    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+    target = request.json.get('variable', '')
+    models=perform_analysis(file,target)
+    best_model = list(models.keys())[0]
+    best_model_info = models[best_model]
+    models.pop(best_model)
+    return render_template('analysis-classification.html',models=models,best_model=best_model,best_model_info=best_model_info)
+
 @app.route('/signup', methods=['POST'])
 def signup():
     try:

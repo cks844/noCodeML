@@ -13,6 +13,46 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 import seaborn as sns
+import os
+import numpy as np
+from werkzeug.datastructures import FileStorage
+#############################################################################################
+#############################################################################################
+#############################################################################################
+#############################################################################################
+def perform_analysis(file,target):
+    temp_folder = 'temp_anal'
+    file_path = os.path.join(temp_folder, 'f')   
+    file.save(file_path)
+    file=FileStorage(filename='f', stream=open('temp_anal/f', 'rb'))
+    a1,i1,c1=perform_logistic_regression(file,target)
+    file=FileStorage(filename='f', stream=open('temp_anal/f', 'rb'))
+    a2,i2,c2=perform_knn(file,target)
+    file=FileStorage(filename='f', stream=open('temp_anal/f', 'rb'))
+    a3,i3,_,c3=perform_dtree(file,target)
+    file=FileStorage(filename='f', stream=open('temp_anal/f', 'rb'))
+    a4,i4,c4=perform_naivebayes(file,target)
+    file=FileStorage(filename='f', stream=open('temp_anal/f', 'rb'))
+    a5,i5,c5=perform_svm(file,target)
+
+    models_acc={}
+    models = ['Logistic Regression', 'KNN', 'Decision Tree', 'Naive Bayes', 'SVM']
+    accuracies = [a1, a2, a3, a4, a5]
+    images=[i1,i2,i3,i4,i5]
+    conf_matrices = [c1, c2, c3, c4, c5]
+    for model, accuracy, conf_matrix,imgs in zip(models, accuracies, conf_matrices,images):
+        rounded_accuracy = round(accuracy * 100, 2)
+        correct = np.diag(conf_matrix).sum()
+        total = np.sum(conf_matrix)
+        wrong = total - correct
+
+        models_acc[model] = [rounded_accuracy, imgs, [correct, wrong, total]]
+
+    models_acc = dict(sorted(models_acc.items(), key=lambda item: item[1][0], reverse=True))
+    # print(models_acc.keys())
+    return(models_acc)
+
+
 
 #############################################################################################
 #############################################################################################
