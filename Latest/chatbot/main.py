@@ -4,11 +4,11 @@ import json
 import streamlit as st
 import os
 from test import get_features
+from config import keys
 
 
 # Set your OpenAI API key here
-OPENAI_API_KEY = "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"  # Replace with your actual OpenAI API key
-ASSISTANT_ID = "asst_RYL2RNpCn3MzHieLb3GscsHz"  # Replace with your actual Assistant ID
+OPENAI_API_KEY,ASSISTANT_ID=keys()
 
 # Headers for OpenAI API requests
 headers = {
