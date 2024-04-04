@@ -47,10 +47,26 @@
     border-radius: 220px;
     box-shadow: 0px 0px 0px 2px rgba(0,0,0,1),
     8px 8px 0px 0px rgba(218,102,123,1);
-
-
-    
   }
+  #chatbot-icon {
+          position: fixed;
+          bottom: 20px;
+          right: 20px; /* changed from left to right */
+          cursor: pointer;
+          z-index: 9999;
+      }
+  #chatbot-iframe {
+      display: none;
+      position: fixed;
+      bottom: 70px;
+      right: 20px; /* changed from left to right */
+      width: 300px;
+      height: 400px;
+      border: none;
+      z-index: 9998;
+  }
+    
+  
 </style>
 <body class="g-sidenav-show  bg-gray-200">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
@@ -186,6 +202,10 @@
         </div>
       </div>
     </div>
+    <img id="chatbot-icon" src="../static/img/chatbot.png" alt="Chatbot Icon" width="50" height="50" onclick="toggleChatbot()">
+    <iframe id="chatbot-iframe" src="http://localhost:8501"></iframe>
+
+
     <div id="modelList" class="row mt-4 justify-content-center">
       <!-- This div will contain the list of models based on user selection -->
     </div>
@@ -200,7 +220,16 @@
   <script src="../static/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../static/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../static/js/plugins/chartjs.min.js"></script>
-
+  <script>
+    function toggleChatbot() {
+        var iframe = document.getElementById('chatbot-iframe');
+        if (iframe.style.display === 'none') {
+            iframe.style.display = 'block';
+        } else {
+            iframe.style.display = 'none';
+        }
+    }
+</script>
   <script>
     function displayModels(modelType) {
       var modelListDiv = document.getElementById("modelList");
