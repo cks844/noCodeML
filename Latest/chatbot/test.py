@@ -1,4 +1,8 @@
+
 import pandas as pd
+from classification import perform_analysis
+
+# from werkzeug.datastructures import FileStorage
 def get_features():
     # Read the CSV file
     file_path = 'tempsy/f'
@@ -13,5 +17,10 @@ def get_features():
         columns_info['distinct_values'].append(df[column].nunique())
     return columns_info
 
-# features=get_features()
-# print(features)
+def get_best_model(type,target):
+    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+    if type=='classification':
+        return(perform_analysis(file,target))
+
+bla=get_best_model('classification','Outcome')
+print(bla)
