@@ -62,10 +62,11 @@ def sign_in():
 def model():
     return(render_template('models.html'))
 
-@app.route('/reg')
+@app.route('/reg',methods=['POST'])
 def linear():
     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
-    model, plot = perform_linear_regression(file)
+    target = request.json.get('variable', '')
+    model, plot = perform_linear_regression(file,target)
     return render_template('linearreg.html', plot=plot, model=model)
 
 
@@ -78,6 +79,14 @@ def predict_new():
     new_value_reshaped = np.array([new_value]).reshape(-1, 1)
     prediction = model.predict(new_value_reshaped)
     return render_template('linearreg.html',plot=plot, prediction=prediction, model=model, new_value=new_value)
+
+@app.route('/multi_reg',methods=['POST'])
+def multi_lin_reg():
+    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+    target = request.json.get('variable', '')
+    model,mae,mse = perform_multiple_linear_regression(file,target)
+    return render_template('multi_lin_reg.html', model=model,mae=mae,mse=mse)
+
 
 @app.route('/logreg',methods=['POST'])
 def logistic():
