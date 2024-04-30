@@ -14,7 +14,8 @@ import base64
 #############################################################################################
 #############################################################################################
 
-def perform_linear_regression(file,target):
+def perform_linear_regression(file):
+    target="Weight"
     df = pd.read_csv(file,index_col=False)
     y=df[target].values.reshape(-1, 1)
     target=[target]

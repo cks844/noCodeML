@@ -1,6 +1,6 @@
 
 import pandas as pd
-from classification import perform_analysis
+# from classification import perform_analysis
 
 # from werkzeug.datastructures import FileStorage
 def get_features():
@@ -17,10 +17,10 @@ def get_features():
         columns_info['distinct_values'].append(df[column].nunique())
     return columns_info
 
-def get_best_model(type,target):
-    file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
-    if type=='classification':
-        return(perform_analysis(file,target))
+# def get_best_model(type,target):
+#     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
+#     if type=='classification':
+#         return(perform_analysis(file,target))
 
-bla=get_best_model('classification','Outcome')
-print(bla)
+# bla=get_best_model('classification','Outcome')
+# print(bla)
