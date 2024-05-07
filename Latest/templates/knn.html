@@ -108,9 +108,11 @@
         <!-- Display the scatter plot using base64-encoded image -->
         <img src="data:image/png;base64,{{ plot }}" alt="Linear Regression Scatter Plot"> -
         <h2>Inferences</h2>
-
+        
         Correctly Classified = {{conf[0]}} / {{conf[2]}} </br>
         Incorrectly Classified = {{conf[1]}} / {{conf[2]}} </br>
+        Precision: {{ precision }}%</br>
+        Recall: {{ recall }}%</br>
         Accuracy: {{ acc }}%
     {% endif %}
     

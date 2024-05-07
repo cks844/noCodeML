@@ -83,13 +83,15 @@ def predict_new():
 def logistic():
     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
     target = request.json.get('variable', '')
-    acc,plot,conf = perform_logistic_regression(file,target)
+    acc,plot,confm = perform_logistic_regression(file,target)
     acc=round(acc*100,2)
-    correct=conf.diagonal().sum()
-    total=conf.sum()
+    correct=confm.diagonal().sum()
+    total=confm.sum()
     wrong=total-correct
     conf=[correct,wrong,total]
-    return render_template('logistic.html',acc=acc, plot=plot, conf=conf)
+    precision=round((confm[0][0]/(confm[0][0]+confm[0][1]))*100,2)
+    recall=round((confm[0][0]/(confm[0][0]+confm[1][0]))*100,2)
+    return render_template('logistic.html',acc=acc, plot=plot, conf=conf,precision=precision,recall=recall)
 
 
 @app.route('/knn',methods=['POST'])
@@ -97,52 +99,60 @@ def knn_f():
 
     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
     target = request.json.get('variable', '')
-    acc,plot,conf = perform_knn(file,target)
+    acc,plot,confm = perform_knn(file,target)
     acc=round(acc*100,2)
-    correct=conf.diagonal().sum()
-    total=conf.sum()
+    correct=confm.diagonal().sum()
+    total=confm.sum()
     wrong=total-correct
     conf=[correct,wrong,total]
-    return render_template('knn.html',acc=acc, plot=plot, conf=conf)
+    precision=round((confm[0][0]/(confm[0][0]+confm[0][1]))*100,2)
+    recall=round((confm[0][0]/(confm[0][0]+confm[1][0]))*100,2)
+    return render_template('knn.html',acc=acc, plot=plot, conf=conf,precision=precision,recall=recall)
 
 @app.route('/dtree',methods=['POST'])
 def decision_tree():
 
     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
     target = request.json.get('variable', '')
-    acc,plot,tree,conf = perform_dtree(file,target)
+    acc,plot,tree,confm = perform_dtree(file,target)
     acc=round(acc*100,2)
-    correct=conf.diagonal().sum()
-    total=conf.sum()
+    correct=confm.diagonal().sum()
+    total=confm.sum()
     wrong=total-correct
     conf=[correct,wrong,total]
-    return render_template('dtree.html',acc=acc,tree=tree, plot=plot, conf=conf)
+    precision=round((confm[0][0]/(confm[0][0]+confm[0][1]))*100,2)
+    recall=round((confm[0][0]/(confm[0][0]+confm[1][0]))*100,2)
+    return render_template('dtree.html',acc=acc,tree=tree, plot=plot, conf=conf,precision=precision,recall=recall)
 
 @app.route('/naivebayes',methods=['POST'])
 def naive_bayes():
 
     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
     target = request.json.get('variable', '')
-    acc,plot,conf = perform_naivebayes(file,target)
+    acc,plot,confm = perform_naivebayes(file,target)
     acc=round(acc*100,2)
-    correct=conf.diagonal().sum()
-    total=conf.sum()
+    correct=confm.diagonal().sum()
+    total=confm.sum()
     wrong=total-correct
     conf=[correct,wrong,total]
-    return render_template('naivebayes.html',acc=acc, plot=plot, conf=conf)
+    precision=round((confm[0][0]/(confm[0][0]+confm[0][1]))*100,2)
+    recall=round((confm[0][0]/(confm[0][0]+confm[1][0]))*100,2)
+    return render_template('naivebayes.html',acc=acc, plot=plot, conf=conf,precision=precision,recall=recall)
 
 @app.route('/svm',methods=['POST'])
 def svm():
 
     file=FileStorage(filename='f', stream=open('tempsy/f', 'rb'))
     target = request.json.get('variable', '')
-    acc,plot,conf = perform_svm(file,target)
+    acc,plot,confm = perform_svm(file,target)
     acc=round(acc*100,2)
-    correct=conf.diagonal().sum()
-    total=conf.sum()
+    correct=confm.diagonal().sum()
+    total=confm.sum()
     wrong=total-correct
     conf=[correct,wrong,total]
-    return render_template('svm.html',acc=acc, plot=plot, conf=conf)
+    precision=round((confm[0][0]/(confm[0][0]+confm[0][1]))*100,2)
+    recall=round((confm[0][0]/(confm[0][0]+confm[1][0]))*100,2)
+    return render_template('svm.html',acc=acc, plot=plot, conf=conf,precision=precision,recall=recall)
 
 
 @app.route('/analysis',methods=['POST'])
@@ -221,7 +231,7 @@ def display_features():
 # Main route
 @app.route('/')
 def index():
-    return render_template('landing.html')
+    return render_template('sign-in.html')
 
 # Upload route
 # @app.route('/linearreg', methods=['POST'])
